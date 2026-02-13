@@ -31,3 +31,14 @@ app.post('/api/tickets', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
+
+// Get all tickets from the database
+app.get('/api/tickets', async (req, res) => {
+  try {
+    const result = await db.query('SELECT * FROM tickets ORDER BY created_at DESC');
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Fetch Error:', err.message);
+    res.status(500).json({ error: 'Failed to fetch tickets' });
+  }
+});
