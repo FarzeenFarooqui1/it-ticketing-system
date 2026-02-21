@@ -1,17 +1,23 @@
 import { useEffect, useState } from 'react';
+import CreateTicket from './CreateTicket'; // Import the new form
 
 const TicketList = () => {
   const [tickets, setTickets] = useState([]);
 
-  useEffect(() => {
+  const fetchTickets = () => {
     fetch('http://localhost:5001/api/tickets')
       .then((res) => res.json())
       .then((data) => setTickets(data))
       .catch((err) => console.error('Error fetching tickets:', err));
+  };
+
+  useEffect(() => {
+    fetchTickets();
   }, []);
 
   return (
     <div style={{ padding: '20px', backgroundColor: '#1a1a1a', minHeight: '100vh', color: 'white' }}>
+      <CreateTicket onTicketCreated={fetchTickets} /> {/* Add the form here */}
       <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>IT Support Dashboard</h2>
       <div style={{ overflowX: 'auto' }}>
         <table style={{ 
